@@ -1,0 +1,4 @@
+
+cd /home/hu/V1EOS-practica/2_shell/bestanden/afbeeldingen
+mkdir Vakantie
+mv $(find | grep vakantie) Vakantie

@@ -1,0 +1,9 @@
+cd bestanden
+
+for i in $(find *.png || find *.jpg); do
+	mkdir afbeeldingen
+	break
+
+done
+
+mv *.jpg afbeeldingen & mv *.png afbeeldingen

@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+directory=$1
+command=$2
+if [ -e log.txt ]; then
+    rm log.txt
+fi 
+touch log.txt
+for file in $directory/*; do
+        $command "$file"
+        echo $? >> log.txt
+done

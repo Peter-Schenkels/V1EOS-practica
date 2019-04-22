@@ -1,5 +1,9 @@
 #include "shell.hh"
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+
 int main()
 { std::string input;
 
@@ -53,7 +57,20 @@ void new_file() {
 }
 
 void list(){
-    system("ls");
+    int pid, status, died;
+    switch(pid = fork()){
+        case -1: std::cout << "Can't fork\n";
+            return;
+
+        case 0:
+            system("ls -la");
+
+            return;
+        case 1:
+            system("ls -la");
+            wait(&status);
+    }
+    return;
 }
 
 

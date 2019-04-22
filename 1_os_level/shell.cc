@@ -8,7 +8,7 @@ int main()
 { std::string input;
 
   // ToDo: Vervang onderstaande regel: Laad prompt uit bestand
-  std::string prompt = "ToDo: Laad de prompt uit een bestand! ";
+  std::string prompt = "place holder:";
 
   while(true)
   { std::cout << prompt;                   // Print het prompt
@@ -96,15 +96,27 @@ void find(){
 
 
 
-    switch(pid = fork()){
+    switch(pid = fork()) {
 
         case -1:
             std::cout << "fork mislukt";
 
         case 0:
-            write(p[1], execl("/usr/bin/find", "find", ".", NULL))
+            dup2(p[1], 1);
+            close(p[0]);
+            close(p[1]);
+            execl("/usr/bin/find", "find", ".", NULL);
 
         default:
+            dup2(p[0], 0);
+            close(p[0]);
+            close(p[1]);
+            execl("/bin/grep", "grep", stringinput, NULL);
+    }
+    close(p[0]);
+    close(p[1]);
+    wait(NULL);
+    return;
 
 
 
@@ -116,8 +128,29 @@ void find(){
 
 }
 
-void python() // ToDo: Implementeer volgens specificatie.
-{ std::cout << "ToDo: Implementeer hier python()" << std::endl; }
+void python(){
+
+    int pid;
+
+    switch (pid = fork()){
+        case -1:
+            std::cout << "cant fork";
+            exit(1);
+
+        case 0:
+            execlp("python", "python", NULL);
+            exit(3);
+
+        default:
+
+            wait(NULL);
+
+    }
+
+
+
+
+}
 
 void src() // Voorbeeld: Gebruikt SYS_open en SYS_read om de source van de shell (shell.cc) te printen.
 { int fd = syscall(SYS_open, "shell.cc", O_RDONLY, 0755); // Gebruik de SYS_open call om een bestand te openen.

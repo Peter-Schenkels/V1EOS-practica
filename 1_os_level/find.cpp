@@ -5,11 +5,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <iostream>
 
 int main(){
 
+    read(0, "homer.txt", 12);
 
-    execl("/usr/bin/find", "ls", ".", NULL);
+
 }
 
 

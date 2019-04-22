@@ -1,5 +1,5 @@
 #include "shell.hh"
-
+#include <unistd.h>
 int main()
 { std::string input;
 
@@ -20,11 +20,42 @@ int main()
 
     if (std::cin.eof()) return 0; } }      // EOF is een exit
 
-void new_file() // ToDo: Implementeer volgens specificatie.
-{ std::cout << "ToDo: Implementeer hier new_file()" << std::endl; }
+void new_file() {
+    char filename[255];
+    std::string text;
+    int fd;
+    std::cout << "enter filename: ";
+    std::cin >> filename;
 
-void list() // ToDo: Implementeer volgens specificatie.
-{ std::cout << "ToDo: Implementeer hier list()" << std::endl; }
+    fd = creat(filename, 0644);
+    std::cin.ignore(1000, '\n');
+    std::cout << "enter text: ";
+    std::getline(std::cin,text);
+
+    char fileText[text.size()];
+
+    for(unsigned int i = 0; i < text.size(); i++){
+
+        fileText[i] = text[i];
+
+    }
+
+
+    if (fd == -1) {
+        std::cout << "cannot create file\n";
+        return;
+    }
+
+    write(fd, fileText, text.size());
+    close(fd);
+    std::cout << "file created\n";
+    return;
+}
+
+void list(){
+    system("ls");
+}
+
 
 void find() // ToDo: Implementeer volgens specificatie.
 { std::cout << "ToDo: Implementeer hier find()" << std::endl; }

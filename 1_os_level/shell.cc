@@ -60,22 +60,61 @@ void list(){
     int pid, status, died;
     switch(pid = fork()){
         case -1: std::cout << "Can't fork\n";
-            return;
+            exit(-1);
+
 
         case 0:
-            system("ls -la");
+            execl("/bin/ls", "ls", "-la", "/etc", (char *)0);
+            std::cout << "error\n";
+            exit(3);
 
-            return;
+
+
         case 1:
-            system("ls -la");
+            execl("/bin/ls", "ls", "-la", "/etc", (char *)0);
+            std::cout << "error\n";
             wait(&status);
     }
     return;
 }
 
 
-void find() // ToDo: Implementeer volgens specificatie.
-{ std::cout << "ToDo: Implementeer hier find()" << std::endl; }
+void find(){
+    int p[2];
+    int pid;
+    if(pipe(p) == -1){
+        std::cout << "pipe is mislukt";
+        exit(1);
+    }
+
+    std::string text;
+    std::cin >> text;
+    char stringinput[text.size()];
+    for (unsigned int i = 0; i < text.size(); i++){
+        stringinput[i] = text[i];
+    }
+
+
+
+    switch(pid = fork()){
+
+        case -1:
+            std::cout << "fork mislukt";
+
+        case 0:
+            write(p[1], execl("/usr/bin/find", "find", ".", NULL))
+
+        default:
+
+
+
+
+
+
+
+
+
+}
 
 void python() // ToDo: Implementeer volgens specificatie.
 { std::cout << "ToDo: Implementeer hier python()" << std::endl; }

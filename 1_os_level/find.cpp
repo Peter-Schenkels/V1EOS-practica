@@ -6,10 +6,26 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <iostream>
+#include <fcntl.h>
+
 
 int main(){
+    int fd, nread;
+    char pc[512];
 
-    read(0, "homer.txt", 12);
+    if ((fd = open("homer.txt", O_RDONLY)) == -1){
+        std::cout << "Error\n";
+
+    }
+
+    if(fd < 0) {
+        return 1;
+    }
+    read(fd, pc, 1);
+
+    std::string prompt = pc;
+
+    std::cout << prompt;
 
 
 }

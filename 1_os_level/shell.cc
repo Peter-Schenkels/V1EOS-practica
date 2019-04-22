@@ -7,10 +7,24 @@
 int main()
 { std::string input;
 
-  // ToDo: Vervang onderstaande regel: Laad prompt uit bestand
-  std::string prompt = "place holder:";
 
-  while(true)
+    std::string prompt;
+    int fd, nread;
+    char pc[6];
+
+    if ((fd = open("homer.txt", O_RDONLY)) == -1){
+        std::cout << "Error\n";
+
+    }
+
+    if(fd < 0) {
+        return 1;
+    }
+    read(fd, pc , 6);
+    prompt = pc;
+
+
+   while(true)
   { std::cout << prompt;                   // Print het prompt
     std::getline(std::cin, input);         // Lees een regel
     if (input == "new_file") new_file();   // Kies de functie

@@ -109,23 +109,34 @@ void find(){
     }
 
 
+    int i;
+    i = fork();
+    
+    if(i==0){
+    
+    
+        switch(pid = fork()) {
 
-    switch(pid = fork()) {
+            case -1:
+                std::cout << "fork mislukt";
 
-        case -1:
-            std::cout << "fork mislukt";
+            case 0:
+                dup2(p[1], 1);
+                close(p[0]);
+                close(p[1]);
+                execl("/usr/bin/find", "find", ".", NULL);
 
-        case 0:
-            dup2(p[1], 1);
-            close(p[0]);
-            close(p[1]);
-            execl("/usr/bin/find", "find", ".", NULL);
-
-        default:
-            dup2(p[0], 0);
-            close(p[0]);
-            close(p[1]);
-            execl("/bin/grep", "grep", stringinput, NULL);
+            default:
+                dup2(p[0], 0);
+                close(p[0]);
+                close(p[1]);
+                execl("/bin/grep", "grep", stringinput, NULL);
+        }
+        
+    }
+    if(i==1){
+    
+       wait(NULL); 
     }
     close(p[0]);
     close(p[1]);
